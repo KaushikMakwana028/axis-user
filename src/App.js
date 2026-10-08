@@ -1,19 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import AppRoutes from './routes/AppRoutes';
 import './App.css';
-import HomeScreen from './screens/HomeScreen';
-import ProductDetailsScreen from './screens/ProductDetailsScreen';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<HomeScreen />} />
-          <Route path="/product/:id" element={<ProductDetailsScreen />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="App">
+          <AppRoutes />
+        </div>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
