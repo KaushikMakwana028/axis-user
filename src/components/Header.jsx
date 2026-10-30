@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
+import { TOOLS } from '../tools/toolsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../redux/categorySlice';
 import { fetchSubcategories } from '../redux/subcategorySlice';
@@ -144,6 +145,12 @@ const Header = () => {
               onClick={closeMobileMenu}
             >
               Categories Directory
+            </Link>
+          </div>
+
+          <div className="drawer-nav-item">
+            <Link to="/tools" className="drawer-nav-link" onClick={closeMobileMenu}>
+              Tools
             </Link>
           </div>
 
@@ -292,6 +299,58 @@ const Header = () => {
             >
               Categories
             </Link>
+          </div>
+
+          {/* Tools dropdown (static, not from API) */}
+          <div
+            className={`nav-item-wrapper ${activeDropdownId === 'tools' ? 'dropdown-active' : ''}`}
+            onMouseEnter={() => setActiveDropdownId('tools')}
+            onMouseLeave={() => setActiveDropdownId(null)}
+          >
+            <div className="nav-link-composite">
+              <Link
+                to="/tools"
+                className={`nav-link ${location.pathname.startsWith('/tools') ? 'active' : ''}`}
+                onClick={() => setActiveDropdownId(null)}
+              >
+                Tools
+              </Link>
+              <button
+                type="button"
+                className={`dropdown-caret-btn ${activeDropdownId === 'tools' ? 'open' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveDropdownId((prev) => (prev === 'tools' ? null : 'tools'));
+                }}
+                aria-label="Toggle Tools dropdown"
+                aria-expanded={activeDropdownId === 'tools'}
+              >
+                ▾
+              </button>
+            </div>
+            {activeDropdownId === 'tools' && (
+              <div className="mega-menu">
+                <div className="mega-menu-header">
+                  <h4>Tools</h4>
+                  <Link to="/tools" className="mega-menu-view-all" onClick={() => setActiveDropdownId(null)}>
+                    All Tools →
+                  </Link>
+                </div>
+                <div className="mega-menu-grid">
+                  {TOOLS.map((t) => (
+                    <Link
+                      key={t.path}
+                      to={t.path}
+                      className="mega-menu-item"
+                      onClick={() => setActiveDropdownId(null)}
+                    >
+                      <span className="mega-menu-item-bullet">•</span>
+                      <span className="mega-menu-item-name">{t.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Dynamic Categories from API with Dropdown using Slug URLs */}

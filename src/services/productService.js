@@ -6,7 +6,7 @@ export const productService = {
    * @param {Object} params - { page, per_page, category_id, subcategory_id, file_type_id, search }
    */
   getProductList: async (params = {}) => {
-    return await axiosInstance.get('/get_product_list', { params });
+    return await axiosInstance.get('/get_product_list', { params }); 
   },
 
   /**
